@@ -16,7 +16,7 @@ workflows:
     plan:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+        cmd: ['echo', '${{ secrets.PROD_ARM_TENANT_ID }}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
         cmd: ['echo', '${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}']
@@ -37,7 +37,7 @@ workflows:
     apply:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+        cmd: ['echo', '${{ secrets.PROD_ARM_TENANT_ID }}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
         cmd: ['echo', '${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}']
@@ -60,7 +60,7 @@ workflows:
     plan:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+        cmd: ['echo', '${{ secrets.DEV_ARM_TENANT_ID }}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
         cmd: ['echo', '${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}']
@@ -81,7 +81,7 @@ workflows:
     apply:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+        cmd: ['echo', '${{ secrets.DEV_ARM_TENANT_ID }}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
         cmd: ['echo', '${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}']
@@ -104,7 +104,7 @@ workflows:
     plan:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+        cmd: ['echo', '${{ secrets.POC_ARM_TENANT_ID }}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
         cmd: ['echo', '${{ secrets.POC_ARM_SUBSCRIPTION_ID }}']
@@ -125,7 +125,7 @@ workflows:
     apply:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+        cmd: ['echo', '${{ secrets.POC_ARM_TENANT_ID }}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
         cmd: ['echo', '${{ secrets.POC_ARM_SUBSCRIPTION_ID }}']
