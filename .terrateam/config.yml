@@ -10,6 +10,11 @@ dirs:
   "terraform":
     tags: ["azure-standard"]
 
+destination_branches:
+  - "main"
+  - "poc"
+  - "develop"
+
 workflows:
   # --- PRODUCTION (Main Branch) ---
   - tag_query: "azure-standard and dest_branch:main"
@@ -29,6 +34,8 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
+          - "-input=false"
+          - "-reconfigure"
           - "-backend-config=resource_group_name=${PROD_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${PROD_STORAGE}"
           - "-backend-config=container_name=tfstate"
@@ -51,6 +58,8 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
+          - "-input=false"
+          - "-reconfigure"
           - "-backend-config=resource_group_name=${PROD_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${PROD_STORAGE}"
           - "-backend-config=container_name=tfstate"
@@ -75,6 +84,8 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
+          - "-input=false"
+          - "-reconfigure"
           - "-backend-config=resource_group_name=${DEV_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${DEV_STORAGE}"
           - "-backend-config=container_name=tfstate"
@@ -97,6 +108,8 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
+          - "-input=false"
+          - "-reconfigure"
           - "-backend-config=resource_group_name=${DEV_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${DEV_STORAGE}"
           - "-backend-config=container_name=tfstate"
@@ -121,6 +134,8 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
+          - "-input=false"
+          - "-reconfigure"
           - "-backend-config=resource_group_name=${POC_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${POC_STORAGE}"
           - "-backend-config=container_name=tfstate"
@@ -143,6 +158,8 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
+          - "-input=false"
+          - "-reconfigure"
           - "-backend-config=resource_group_name=${POC_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${POC_STORAGE}"
           - "-backend-config=container_name=tfstate"
