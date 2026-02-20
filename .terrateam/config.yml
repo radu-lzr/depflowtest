@@ -1,4 +1,4 @@
-# .terrateam/config.yml
+﻿# .terrateam/config.yml
 
 tags:
   dest_branch:
@@ -16,20 +16,21 @@ workflows:
     plan:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.PROD_ARM_TENANT_ID }}']
+        cmd: ['echo', '${PROD_ARM_TENANT_ID}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
-        cmd: ['echo', '${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}']
+        cmd: ['echo', '${PROD_ARM_SUBSCRIPTION_ID}']
       - type: env
         name: ARM_CLIENT_ID
-        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_ID }}']
+        cmd: ['echo', '${PROD_ARM_CLIENT_ID}']
       - type: env
         name: ARM_CLIENT_SECRET
-        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_SECRET }}']
+        cmd: ['echo', '${PROD_ARM_CLIENT_SECRET}']
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=storage_account_name=${{ secrets.PROD_STORAGE }}"
+          - "-backend-config=resource_group_name=${PROD_TFSTATE_RG}"
+          - "-backend-config=storage_account_name=${PROD_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=prod.terraform.tfstate"
       - type: plan
@@ -37,20 +38,21 @@ workflows:
     apply:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.PROD_ARM_TENANT_ID }}']
+        cmd: ['echo', '${PROD_ARM_TENANT_ID}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
-        cmd: ['echo', '${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}']
+        cmd: ['echo', '${PROD_ARM_SUBSCRIPTION_ID}']
       - type: env
         name: ARM_CLIENT_ID
-        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_ID }}']
+        cmd: ['echo', '${PROD_ARM_CLIENT_ID}']
       - type: env
         name: ARM_CLIENT_SECRET
-        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_SECRET }}']
+        cmd: ['echo', '${PROD_ARM_CLIENT_SECRET}']
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=storage_account_name=${{ secrets.PROD_STORAGE }}"
+          - "-backend-config=resource_group_name=${PROD_TFSTATE_RG}"
+          - "-backend-config=storage_account_name=${PROD_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=prod.terraform.tfstate"
       - type: apply
@@ -60,20 +62,21 @@ workflows:
     plan:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.DEV_ARM_TENANT_ID }}']
+        cmd: ['echo', '${DEV_ARM_TENANT_ID}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
-        cmd: ['echo', '${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}']
+        cmd: ['echo', '${DEV_ARM_SUBSCRIPTION_ID}']
       - type: env
         name: ARM_CLIENT_ID
-        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_ID }}']
+        cmd: ['echo', '${DEV_ARM_CLIENT_ID}']
       - type: env
         name: ARM_CLIENT_SECRET
-        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_SECRET }}']
+        cmd: ['echo', '${DEV_ARM_CLIENT_SECRET}']
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}"
+          - "-backend-config=resource_group_name=${DEV_TFSTATE_RG}"
+          - "-backend-config=storage_account_name=${DEV_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=dev.terraform.tfstate"
       - type: plan
@@ -81,20 +84,21 @@ workflows:
     apply:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.DEV_ARM_TENANT_ID }}']
+        cmd: ['echo', '${DEV_ARM_TENANT_ID}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
-        cmd: ['echo', '${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}']
+        cmd: ['echo', '${DEV_ARM_SUBSCRIPTION_ID}']
       - type: env
         name: ARM_CLIENT_ID
-        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_ID }}']
+        cmd: ['echo', '${DEV_ARM_CLIENT_ID}']
       - type: env
         name: ARM_CLIENT_SECRET
-        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_SECRET }}']
+        cmd: ['echo', '${DEV_ARM_CLIENT_SECRET}']
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}"
+          - "-backend-config=resource_group_name=${DEV_TFSTATE_RG}"
+          - "-backend-config=storage_account_name=${DEV_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=dev.terraform.tfstate"
       - type: apply
@@ -104,20 +108,21 @@ workflows:
     plan:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.POC_ARM_TENANT_ID }}']
+        cmd: ['echo', '${POC_ARM_TENANT_ID}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
-        cmd: ['echo', '${{ secrets.POC_ARM_SUBSCRIPTION_ID }}']
+        cmd: ['echo', '${POC_ARM_SUBSCRIPTION_ID}']
       - type: env
         name: ARM_CLIENT_ID
-        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_ID }}']
+        cmd: ['echo', '${POC_ARM_CLIENT_ID}']
       - type: env
         name: ARM_CLIENT_SECRET
-        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_SECRET }}']
+        cmd: ['echo', '${POC_ARM_CLIENT_SECRET}']
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}"
+          - "-backend-config=resource_group_name=${POC_TFSTATE_RG}"
+          - "-backend-config=storage_account_name=${POC_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=poc.terraform.tfstate"
       - type: plan
@@ -125,20 +130,21 @@ workflows:
     apply:
       - type: env
         name: ARM_TENANT_ID
-        cmd: ['echo', '${{ secrets.POC_ARM_TENANT_ID }}']
+        cmd: ['echo', '${POC_ARM_TENANT_ID}']
       - type: env
         name: ARM_SUBSCRIPTION_ID
-        cmd: ['echo', '${{ secrets.POC_ARM_SUBSCRIPTION_ID }}']
+        cmd: ['echo', '${POC_ARM_SUBSCRIPTION_ID}']
       - type: env
         name: ARM_CLIENT_ID
-        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_ID }}']
+        cmd: ['echo', '${POC_ARM_CLIENT_ID}']
       - type: env
         name: ARM_CLIENT_SECRET
-        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_SECRET }}']
+        cmd: ['echo', '${POC_ARM_CLIENT_SECRET}']
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}"
+          - "-backend-config=resource_group_name=${POC_TFSTATE_RG}"
+          - "-backend-config=storage_account_name=${POC_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=poc.terraform.tfstate"
       - type: apply
