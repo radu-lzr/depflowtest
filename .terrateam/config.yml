@@ -13,15 +13,21 @@ dirs:
 workflows:
   # --- PRODUCTION (Main Branch) ---
   - tag_query: "azure-standard and dest_branch:main"
-    # SCHEMA FIX: Define environment variables at the workflow level
-    environment:
-      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}" # Shared Tenant ID for all
-      ARM_SUBSCRIPTION_ID: "${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}"
-      ARM_CLIENT_ID: "${{ secrets.PROD_ARM_CLIENT_ID }}"
-      ARM_CLIENT_SECRET: "${{ secrets.PROD_ARM_CLIENT_SECRET }}"
     plan:
+      - type: env
+        name: ARM_TENANT_ID
+        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+      - type: env
+        name: ARM_SUBSCRIPTION_ID
+        cmd: ['echo', '${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}']
+      - type: env
+        name: ARM_CLIENT_ID
+        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_ID }}']
+      - type: env
+        name: ARM_CLIENT_SECRET
+        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_SECRET }}']
+        sensitive: true
       - type: init
-        # SCHEMA FIX: Use 'extra_args' instead of 'args'
         extra_args:
           - "-backend-config=storage_account_name=${{ secrets.PROD_STORAGE }}"
           - "-backend-config=container_name=tfstate"
@@ -29,6 +35,19 @@ workflows:
       - type: plan
         extra_args: ["-var-file=prod.tfvars"]
     apply:
+      - type: env
+        name: ARM_TENANT_ID
+        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+      - type: env
+        name: ARM_SUBSCRIPTION_ID
+        cmd: ['echo', '${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}']
+      - type: env
+        name: ARM_CLIENT_ID
+        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_ID }}']
+      - type: env
+        name: ARM_CLIENT_SECRET
+        cmd: ['echo', '${{ secrets.PROD_ARM_CLIENT_SECRET }}']
+        sensitive: true
       - type: init
         extra_args:
           - "-backend-config=storage_account_name=${{ secrets.PROD_STORAGE }}"
@@ -38,12 +57,20 @@ workflows:
 
   # --- DEVELOP BRANCH ---
   - tag_query: "azure-standard and dest_branch:develop"
-    environment:
-      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}" # Same Shared Tenant ID
-      ARM_SUBSCRIPTION_ID: "${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}"
-      ARM_CLIENT_ID: "${{ secrets.DEV_ARM_CLIENT_ID }}"
-      ARM_CLIENT_SECRET: "${{ secrets.DEV_ARM_CLIENT_SECRET }}"
     plan:
+      - type: env
+        name: ARM_TENANT_ID
+        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+      - type: env
+        name: ARM_SUBSCRIPTION_ID
+        cmd: ['echo', '${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}']
+      - type: env
+        name: ARM_CLIENT_ID
+        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_ID }}']
+      - type: env
+        name: ARM_CLIENT_SECRET
+        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_SECRET }}']
+        sensitive: true
       - type: init
         extra_args:
           - "-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}"
@@ -52,6 +79,19 @@ workflows:
       - type: plan
         extra_args: ["-var-file=dev.tfvars"]
     apply:
+      - type: env
+        name: ARM_TENANT_ID
+        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+      - type: env
+        name: ARM_SUBSCRIPTION_ID
+        cmd: ['echo', '${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}']
+      - type: env
+        name: ARM_CLIENT_ID
+        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_ID }}']
+      - type: env
+        name: ARM_CLIENT_SECRET
+        cmd: ['echo', '${{ secrets.DEV_ARM_CLIENT_SECRET }}']
+        sensitive: true
       - type: init
         extra_args:
           - "-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}"
@@ -61,12 +101,20 @@ workflows:
 
   # --- POC BRANCH ---
   - tag_query: "azure-standard and dest_branch:poc"
-    environment:
-      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}" # Same Shared Tenant ID
-      ARM_SUBSCRIPTION_ID: "${{ secrets.POC_ARM_SUBSCRIPTION_ID }}"
-      ARM_CLIENT_ID: "${{ secrets.POC_ARM_CLIENT_ID }}"
-      ARM_CLIENT_SECRET: "${{ secrets.POC_ARM_CLIENT_SECRET }}"
     plan:
+      - type: env
+        name: ARM_TENANT_ID
+        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+      - type: env
+        name: ARM_SUBSCRIPTION_ID
+        cmd: ['echo', '${{ secrets.POC_ARM_SUBSCRIPTION_ID }}']
+      - type: env
+        name: ARM_CLIENT_ID
+        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_ID }}']
+      - type: env
+        name: ARM_CLIENT_SECRET
+        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_SECRET }}']
+        sensitive: true
       - type: init
         extra_args:
           - "-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}"
@@ -75,6 +123,19 @@ workflows:
       - type: plan
         extra_args: ["-var-file=poc.tfvars"]
     apply:
+      - type: env
+        name: ARM_TENANT_ID
+        cmd: ['echo', '${{ secrets.ARM_TENANT_ID }}']
+      - type: env
+        name: ARM_SUBSCRIPTION_ID
+        cmd: ['echo', '${{ secrets.POC_ARM_SUBSCRIPTION_ID }}']
+      - type: env
+        name: ARM_CLIENT_ID
+        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_ID }}']
+      - type: env
+        name: ARM_CLIENT_SECRET
+        cmd: ['echo', '${{ secrets.POC_ARM_CLIENT_SECRET }}']
+        sensitive: true
       - type: init
         extra_args:
           - "-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}"
