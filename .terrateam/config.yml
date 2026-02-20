@@ -29,7 +29,7 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=resource_group_name=${TFSTATE_RG}"
+          - "-backend-config=resource_group_name=${PROD_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${PROD_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=prod.terraform.tfstate"
@@ -51,7 +51,7 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=resource_group_name=${TFSTATE_RG}"
+          - "-backend-config=resource_group_name=${PROD_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${PROD_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=prod.terraform.tfstate"
@@ -75,7 +75,7 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=resource_group_name=${TFSTATE_RG}"
+          - "-backend-config=resource_group_name=${DEV_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${DEV_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=dev.terraform.tfstate"
@@ -97,7 +97,7 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=resource_group_name=${TFSTATE_RG}"
+          - "-backend-config=resource_group_name=${DEV_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${DEV_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=dev.terraform.tfstate"
@@ -121,7 +121,7 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=resource_group_name=${TFSTATE_RG}"
+          - "-backend-config=resource_group_name=${POC_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${POC_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=poc.terraform.tfstate"
@@ -143,7 +143,7 @@ workflows:
         sensitive: true
       - type: init
         extra_args:
-          - "-backend-config=resource_group_name=${TFSTATE_RG}"
+          - "-backend-config=resource_group_name=${POC_TFSTATE_RG}"
           - "-backend-config=storage_account_name=${POC_STORAGE}"
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=poc.terraform.tfstate"
