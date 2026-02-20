@@ -15,6 +15,10 @@ destination_branches:
   - "poc"
   - "develop"
 
+engine:
+  name: terraform
+  version: "1.14.5"
+
 workflows:
   # --- PRODUCTION (Main Branch) ---
   - tag_query: "azure-standard and dest_branch:main"
