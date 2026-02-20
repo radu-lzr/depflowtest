@@ -1,5 +1,12 @@
-required_providers {
-  azurerm = ">= 4.60"
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 4.60"
+    }
+  }
+
+  backend "azurerm" {}
 }
 
 provider "azurerm" {
