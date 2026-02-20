@@ -6,7 +6,9 @@ terraform {
     }
   }
 
-  backend "azurerm" {}
+  backend "azurerm" {
+    use_azuread = true
+  }
 }
 
 provider "azurerm" {
