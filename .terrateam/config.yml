@@ -13,7 +13,7 @@ dirs:
 destination_branches:
   - "main"
   - "poc"
-  - "dev"
+  - "develop"
 
 workflows:
   # --- PRODUCTION (Main Branch) ---
