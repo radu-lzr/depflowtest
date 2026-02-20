@@ -1,82 +1,83 @@
-# 1. Define the branch mapping
+# .terrateam/config.yml
+
 tags:
   dest_branch:
-    main: '^main$'
-    develop: '^develop$'
-    poc: '^poc$'
+    main: "^main$"
+    develop: "^develop$"
+    poc: "^poc$"
 
-# 2. Point to your single terraform directory
 dirs:
   "terraform":
     tags: ["azure-standard"]
 
-# 3. Define the workflows by combining the directory tag and the branch tag
 workflows:
-  # --- PRODUCTION ---
+  # --- PRODUCTION (Main Branch) ---
   - tag_query: "azure-standard and dest_branch:main"
+    # SCHEMA FIX: Define environment variables at the workflow level
+    environment:
+      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}" # Shared Tenant ID for all
+      ARM_SUBSCRIPTION_ID: "${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}"
+      ARM_CLIENT_ID: "${{ secrets.PROD_ARM_CLIENT_ID }}"
+      ARM_CLIENT_SECRET: "${{ secrets.PROD_ARM_CLIENT_SECRET }}"
     plan:
-      - type: "init"
-        args:
+      - type: init
+        # SCHEMA FIX: Use 'extra_args' instead of 'args'
+        extra_args:
           - "-backend-config=storage_account_name=${{ secrets.PROD_STORAGE }}"
           - "-backend-config=container_name=tfstate"
-          - "-backend-config=key=terraform.tfstate"
-      - type: "plan"
-        args: ["-var-file=prod.tfvars"]
-        env:
-          ARM_CLIENT_ID: "${{ secrets.PROD_ARM_CLIENT_ID }}"
-          ARM_CLIENT_SECRET: "${{ secrets.PROD_ARM_CLIENT_SECRET }}"
-          ARM_SUBSCRIPTION_ID: "${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}"
-          ARM_TENANT_ID: "${{ secrets.PROD_ARM_TENANT_ID }}"
+          - "-backend-config=key=prod.terraform.tfstate"
+      - type: plan
+        extra_args: ["-var-file=prod.tfvars"]
     apply:
-      - type: "init"
-        args: ["-backend-config=storage_account_name=${{ secrets.PROD_STORAGE }}", "-backend-config=key=terraform.tfstate"]
-      - type: "apply"
-        env: &prod_env # YAML anchor to avoid repeating secrets
-          ARM_CLIENT_ID: "${{ secrets.PROD_ARM_CLIENT_ID }}"
-          ARM_CLIENT_SECRET: "${{ secrets.PROD_ARM_CLIENT_SECRET }}"
-          ARM_SUBSCRIPTION_ID: "${{ secrets.PROD_ARM_SUBSCRIPTION_ID }}"
-          ARM_TENANT_ID: "${{ secrets.PROD_ARM_TENANT_ID }}"
+      - type: init
+        extra_args:
+          - "-backend-config=storage_account_name=${{ secrets.PROD_STORAGE }}"
+          - "-backend-config=container_name=tfstate"
+          - "-backend-config=key=prod.terraform.tfstate"
+      - type: apply
 
-  # --- DEVELOP ---
+  # --- DEVELOP BRANCH ---
   - tag_query: "azure-standard and dest_branch:develop"
+    environment:
+      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}" # Same Shared Tenant ID
+      ARM_SUBSCRIPTION_ID: "${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}"
+      ARM_CLIENT_ID: "${{ secrets.DEV_ARM_CLIENT_ID }}"
+      ARM_CLIENT_SECRET: "${{ secrets.DEV_ARM_CLIENT_SECRET }}"
     plan:
-      - type: "init"
-        args: ["-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}", "-backend-config=key=terraform.tfstate"]
-      - type: "plan"
-        args: ["-var-file=dev.tfvars"]
-        env:
-          ARM_CLIENT_ID: "${{ secrets.DEV_ARM_CLIENT_ID }}"
-          ARM_CLIENT_SECRET: "${{ secrets.DEV_ARM_CLIENT_SECRET }}"
-          ARM_SUBSCRIPTION_ID: "${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}"
-          ARM_TENANT_ID: "${{ secrets.DEV_ARM_TENANT_ID }}"
+      - type: init
+        extra_args:
+          - "-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}"
+          - "-backend-config=container_name=tfstate"
+          - "-backend-config=key=dev.terraform.tfstate"
+      - type: plan
+        extra_args: ["-var-file=dev.tfvars"]
     apply:
-      - type: "init"
-        args: ["-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}", "-backend-config=key=terraform.tfstate"]
-      - type: "apply"
-        env:
-          ARM_CLIENT_ID: "${{ secrets.DEV_ARM_CLIENT_ID }}"
-          ARM_CLIENT_SECRET: "${{ secrets.DEV_ARM_CLIENT_SECRET }}"
-          ARM_SUBSCRIPTION_ID: "${{ secrets.DEV_ARM_SUBSCRIPTION_ID }}"
-          ARM_TENANT_ID: "${{ secrets.DEV_ARM_TENANT_ID }}"
+      - type: init
+        extra_args:
+          - "-backend-config=storage_account_name=${{ secrets.DEV_STORAGE }}"
+          - "-backend-config=container_name=tfstate"
+          - "-backend-config=key=dev.terraform.tfstate"
+      - type: apply
 
-  # --- POC ---
+  # --- POC BRANCH ---
   - tag_query: "azure-standard and dest_branch:poc"
+    environment:
+      ARM_TENANT_ID: "${{ secrets.ARM_TENANT_ID }}" # Same Shared Tenant ID
+      ARM_SUBSCRIPTION_ID: "${{ secrets.POC_ARM_SUBSCRIPTION_ID }}"
+      ARM_CLIENT_ID: "${{ secrets.POC_ARM_CLIENT_ID }}"
+      ARM_CLIENT_SECRET: "${{ secrets.POC_ARM_CLIENT_SECRET }}"
     plan:
-      - type: "init"
-        args: ["-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}", "-backend-config=key=terraform.tfstate"]
-      - type: "plan"
-        args: ["-var-file=poc.tfvars"]
-        env:
-          ARM_CLIENT_ID: "${{ secrets.POC_ARM_CLIENT_ID }}"
-          ARM_CLIENT_SECRET: "${{ secrets.POC_ARM_CLIENT_SECRET }}"
-          ARM_SUBSCRIPTION_ID: "${{ secrets.POC_ARM_SUBSCRIPTION_ID }}"
-          ARM_TENANT_ID: "${{ secrets.POC_ARM_TENANT_ID }}"
+      - type: init
+        extra_args:
+          - "-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}"
+          - "-backend-config=container_name=tfstate"
+          - "-backend-config=key=poc.terraform.tfstate"
+      - type: plan
+        extra_args: ["-var-file=poc.tfvars"]
     apply:
-      - type: "init"
-        args: ["-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}", "-backend-config=key=terraform.tfstate"]
-      - type: "apply"
-        env:
-          ARM_CLIENT_ID: "${{ secrets.POC_ARM_CLIENT_ID }}"
-          ARM_CLIENT_SECRET: "${{ secrets.POC_ARM_CLIENT_SECRET }}"
-          ARM_SUBSCRIPTION_ID: "${{ secrets.POC_ARM_SUBSCRIPTION_ID }}"
-          ARM_TENANT_ID: "${{ secrets.POC_ARM_TENANT_ID }}"
+      - type: init
+        extra_args:
+          - "-backend-config=storage_account_name=${{ secrets.POC_STORAGE }}"
+          - "-backend-config=container_name=tfstate"
+          - "-backend-config=key=poc.terraform.tfstate"
+      - type: apply
