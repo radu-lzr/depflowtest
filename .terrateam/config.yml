@@ -10,6 +10,11 @@ dirs:
   "terraform":
     tags: ["azure-standard"]
 
+destination_branches:
+  - "main"
+  - "poc"
+  - "dev"
+
 workflows:
   # --- PRODUCTION (Main Branch) ---
   - tag_query: "azure-standard and dest_branch:main"
