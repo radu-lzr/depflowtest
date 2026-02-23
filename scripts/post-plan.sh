@@ -14,10 +14,6 @@ PR_NUMBER=$(echo "$PR_DATA" | jq -r '.[0].number // empty' 2>/dev/null || echo "
 PR_TITLE=$(echo "$PR_DATA" | jq -r '.[0].title // empty' 2>/dev/null || echo "")
 SOURCE_BRANCH=$(echo "$PR_DATA" | jq -r '.[0].head.ref // empty' 2>/dev/null || echo "")
 
-# Generate DOT graph using terraform graph
-DOT_GRAPH=$(terraform graph -plan="$TERRATEAM_PLAN_FILE" 2>/dev/null || terraform graph 2>/dev/null || echo "")
-
-# Build the JSON with DOT graph included
 jq -n \
   --arg commit "$GITHUB_SHA" \
   --arg target_branch "$TARGET_BRANCH" \
@@ -27,7 +23,6 @@ jq -n \
   --arg repo "$GITHUB_REPOSITORY" \
   --arg dir "$TERRATEAM_DIR" \
   --arg workspace "$TERRATEAM_WORKSPACE" \
-  --arg dot_graph "$DOT_GRAPH" \
   --argjson plan "$PLAN_JSON" \
-  '{commit: $commit, target_branch: $target_branch, source_branch: $source_branch, pr_number: $pr_number, pr_title: $pr_title, repo: $repo, dir: $dir, workspace: $workspace, plan: $plan, dot_graph: $dot_graph}' \
+  '{commit: $commit, target_branch: $target_branch, source_branch: $source_branch, pr_number: $pr_number, pr_title: $pr_title, repo: $repo, dir: $dir, workspace: $workspace, plan: $plan}' \
 | curl -s -X POST -H "Content-Type: application/json" -d @- "$API_URL/plans"
