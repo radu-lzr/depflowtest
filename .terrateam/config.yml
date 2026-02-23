@@ -47,7 +47,7 @@ workflows:
       - type: plan
         extra_args: ["-var-file=prod.tfvars"]
       - type: run
-        cmd: ['bash', 'scripts/post-plan.sh']
+        cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
       - type: env
         name: ARM_TENANT_ID
@@ -100,7 +100,7 @@ workflows:
       - type: plan
         extra_args: ["-var-file=dev.tfvars"]
       - type: run
-        cmd: ['bash', 'scripts/post-plan.sh']
+        cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
       - type: env
         name: ARM_TENANT_ID
@@ -153,7 +153,7 @@ workflows:
       - type: plan
         extra_args: ["-var-file=poc.tfvars"]
       - type: run
-        cmd: ['bash', 'scripts/post-plan.sh']
+        cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
       - type: env
         name: ARM_TENANT_ID
