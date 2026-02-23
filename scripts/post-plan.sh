@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+API_URL="${MONITOR_API_URL:-http://terrateamplantest.ebb4cmfnbwexdmgy.francecentral.azurecontainer.io:8000}"
+
 PLAN_JSON=$(terraform show -json "$TERRATEAM_PLAN_FILE")
 
 # Get PR info from GitHub API
@@ -23,4 +25,4 @@ jq -n \
   --arg workspace "$TERRATEAM_WORKSPACE" \
   --argjson plan "$PLAN_JSON" \
   '{commit: $commit, target_branch: $target_branch, source_branch: $source_branch, pr_number: $pr_number, pr_title: $pr_title, repo: $repo, dir: $dir, workspace: $workspace, plan: $plan}' \
-| curl -s -X POST -H "Content-Type: application/json" -d @- http://terrateamplantest.ebb4cmfnbwexdmgy.francecentral.azurecontainer.io:8000/plans
+| curl -s -X POST -H "Content-Type: application/json" -d @- "$API_URL/plans"
