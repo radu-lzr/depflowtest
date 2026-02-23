@@ -46,6 +46,9 @@ workflows:
           - "-backend-config=key=prod.terraform.tfstate"
       - type: plan
         extra_args: ["-var-file=prod.tfvars"]
+      - type: env
+        name: TARGET_BRANCH
+        cmd: ['echo', 'main']
       - type: run
         cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
@@ -99,6 +102,9 @@ workflows:
           - "-backend-config=key=dev.terraform.tfstate"
       - type: plan
         extra_args: ["-var-file=dev.tfvars"]
+      - type: env
+        name: TARGET_BRANCH
+        cmd: ['echo', 'develop']
       - type: run
         cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
@@ -152,6 +158,9 @@ workflows:
           - "-backend-config=key=poc.terraform.tfstate"
       - type: plan
         extra_args: ["-var-file=poc.tfvars"]
+      - type: env
+        name: TARGET_BRANCH
+        cmd: ['echo', 'poc']
       - type: run
         cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
