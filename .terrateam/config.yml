@@ -15,6 +15,10 @@ destination_branches:
   - "poc"
   - "develop"
 
+engine:
+  name: terraform
+  version: "1.14.5"
+
 workflows:
   # --- PRODUCTION (Main Branch) ---
   - tag_query: "azure-standard and dest_branch:main"
@@ -42,6 +46,11 @@ workflows:
           - "-backend-config=key=prod.terraform.tfstate"
       - type: plan
         extra_args: ["-var-file=prod.tfvars"]
+      - type: env
+        name: TARGET_BRANCH
+        cmd: ['echo', 'main']
+      - type: run
+        cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
       - type: env
         name: ARM_TENANT_ID
@@ -65,6 +74,7 @@ workflows:
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=prod.terraform.tfstate"
       - type: apply
+        extra_args: ["-var-file=prod.tfvars"]
 
   # --- DEVELOP BRANCH ---
   - tag_query: "azure-standard and dest_branch:develop"
@@ -92,6 +102,11 @@ workflows:
           - "-backend-config=key=dev.terraform.tfstate"
       - type: plan
         extra_args: ["-var-file=dev.tfvars"]
+      - type: env
+        name: TARGET_BRANCH
+        cmd: ['echo', 'develop']
+      - type: run
+        cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
       - type: env
         name: ARM_TENANT_ID
@@ -115,6 +130,7 @@ workflows:
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=dev.terraform.tfstate"
       - type: apply
+        extra_args: ["-var-file=dev.tfvars"]
 
   # --- POC BRANCH ---
   - tag_query: "azure-standard and dest_branch:poc"
@@ -142,6 +158,11 @@ workflows:
           - "-backend-config=key=poc.terraform.tfstate"
       - type: plan
         extra_args: ["-var-file=poc.tfvars"]
+      - type: env
+        name: TARGET_BRANCH
+        cmd: ['echo', 'poc']
+      - type: run
+        cmd: ['bash', '${TERRATEAM_ROOT}/scripts/post-plan.sh']
     apply:
       - type: env
         name: ARM_TENANT_ID
@@ -165,3 +186,4 @@ workflows:
           - "-backend-config=container_name=tfstate"
           - "-backend-config=key=poc.terraform.tfstate"
       - type: apply
+        extra_args: ["-var-file=poc.tfvars"]
