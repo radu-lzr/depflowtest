@@ -27,6 +27,7 @@ resource "azurerm_storage_account" "sa" {
 
   tags = {
     environment = "test"
+    monitoring   = "enabled"
   }
 }
 

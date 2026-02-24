@@ -1,1 +1,10 @@
 monitor-api/env/*
+
+MonitorApi/bin/*
+
+MonitorApi/obj/*
+
+MonitorApi/*
+
+docker-compose.yml
+depflowtest.sln

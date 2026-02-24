@@ -25,4 +25,4 @@ jq -n \
   --arg workspace "$TERRATEAM_WORKSPACE" \
   --argjson plan "$PLAN_JSON" \
   '{commit: $commit, target_branch: $target_branch, source_branch: $source_branch, pr_number: $pr_number, pr_title: $pr_title, repo: $repo, dir: $dir, workspace: $workspace, plan: $plan}' \
-| curl -s -X POST -H "Content-Type: application/json" -d @- "$API_URL/plans"
+| curl -s -X POST -H "Content-Type: application/json" -d @- "$API_URL/TerrateamPlans"
